@@ -174,6 +174,24 @@ defmodule RoutiqWeb.UserAuth do
     end
   end
 
+  def on_mount({:ensure_role, allowed_roles}, _params, session, socket) do
+    socket = mount_current_user(socket, session)
+    user = socket.assigns.current_user
+
+    allowed_roles = List.wrap(allowed_roles)
+
+    if user && user.role in allowed_roles do
+      {:cont, socket}
+    else
+      socket =
+        socket
+        |> Phoenix.LiveView.put_flash(:error, "You do not have permission to access this page.")
+        |> Phoenix.LiveView.redirect(to: signed_in_path(socket))
+
+      {:halt, socket}
+    end
+  end
+
   defp mount_current_user(socket, session) do
     Phoenix.Component.assign_new(socket, :current_user, fn ->
       if user_token = session["user_token"] do
@@ -209,6 +227,24 @@ defmodule RoutiqWeb.UserAuth do
       |> put_flash(:error, "You must log in to access this page.")
       |> maybe_store_return_to()
       |> redirect(to: ~p"/users/log_in")
+      |> halt()
+    end
+  end
+
+  @doc """
+  Used for routes that require the user to have a specific role.
+  Accepts a single role string or a list of role strings.
+  """
+  def require_role(conn, allowed_roles) do
+    user = conn.assigns[:current_user]
+    allowed_roles = List.wrap(allowed_roles)
+
+    if user && user.role in allowed_roles do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You do not have permission to access this page.")
+      |> redirect(to: signed_in_path(conn))
       |> halt()
     end
   end
