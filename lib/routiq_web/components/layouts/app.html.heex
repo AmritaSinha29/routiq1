@@ -1,142 +1,146 @@
-<div class="flex min-h-screen">
-  <!-- ============ Sidebar ============ -->
-  <aside class="hidden lg:flex flex-col w-72 bg-white/[0.02] border-r border-white/[0.06] px-4 py-6 fixed inset-y-0 left-0 z-40">
-    <!-- Logo -->
-    <div class="flex items-center gap-3 px-4 mb-10">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand to-accent flex items-center justify-center shadow-lg shadow-accent/20">
-        <svg
-          class="w-6 h-6 text-white"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z"
-          />
-        </svg>
+<div class="flex min-h-screen bg-[#0F172A]">
+  <%= if assigns[:current_user] do %>
+    <!-- ============ Sidebar ============ -->
+    <aside class="hidden lg:flex flex-col w-72 bg-white/[0.02] border-r border-white/[0.06] px-4 py-6 fixed inset-y-0 left-0 z-40">
+      <!-- Logo -->
+      <div class="flex items-center gap-3 px-4 mb-10">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand to-accent flex items-center justify-center shadow-lg shadow-accent/20">
+          <svg
+            class="w-6 h-6 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z"
+            />
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-white font-display tracking-tight">Routiq</h1>
+          <p class="text-[10px] text-gray-500 uppercase tracking-widest font-medium">Routiq</p>
+        </div>
       </div>
-      <div>
-        <h1 class="text-lg font-bold text-white font-display tracking-tight">Routiq</h1>
-        <p class="text-[10px] text-gray-500 uppercase tracking-widest font-medium">Routiq</p>
-      </div>
-    </div>
-    
+      
 <!-- Navigation -->
-    <nav class="flex-1 space-y-1">
-      <p class="px-4 text-[10px] text-gray-600 uppercase tracking-widest font-semibold mb-3">
-        Main
-      </p>
+      <nav class="flex-1 space-y-1">
+        <p class="px-4 text-[10px] text-gray-600 uppercase tracking-widest font-semibold mb-3">
+          Main
+        </p>
 
-      <.link
-        navigate={~p"/dashboard"}
-        class={"sidebar-link #{if assigns[:active_tab] == :dashboard, do: "active"}"}
-      >
-        <span class="hero-home w-5 h-5"></span> Dashboard
-      </.link>
-
-      <.link
-        navigate={~p"/shipments"}
-        class={"sidebar-link #{if assigns[:active_tab] == :shipments, do: "active"}"}
-      >
-        <span class="hero-truck w-5 h-5"></span> Shipments
-      </.link>
-
-      <.link
-        navigate={~p"/compliance"}
-        class={"sidebar-link #{if assigns[:active_tab] == :compliance, do: "active"}"}
-      >
-        <span class="hero-shield-check w-5 h-5"></span> Compliance
-      </.link>
-
-      <p class="px-4 text-[10px] text-gray-600 uppercase tracking-widest font-semibold mb-3 mt-8">
-        Intelligence
-      </p>
-
-      <.link
-        navigate={~p"/substances"}
-        class={"sidebar-link #{if assigns[:active_tab] == :substances, do: "active"}"}
-      >
-        <span class="hero-beaker w-5 h-5"></span> Substances
-      </.link>
-
-      <.link
-        navigate={~p"/country-rules"}
-        class={"sidebar-link #{if assigns[:active_tab] == :country_rules, do: "active"}"}
-      >
-        <span class="hero-globe-alt w-5 h-5"></span> Country Rules
-      </.link>
-
-      <p class="px-4 text-[10px] text-gray-600 uppercase tracking-widest font-semibold mb-3 mt-8">
-        System
-      </p>
-
-      <.link
-        navigate={~p"/users/settings"}
-        class={"sidebar-link #{if assigns[:active_tab] == :settings, do: "active"}"}
-      >
-        <span class="hero-cog-6-tooth w-5 h-5"></span> Settings
-      </.link>
-    </nav>
-    
-<!-- User section -->
-    <div class="border-t border-white/[0.06] pt-4 mt-4">
-      <div class="flex items-center gap-3 px-4">
-        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-accent/30 to-brand/30 flex items-center justify-center text-white text-sm font-bold border border-white/10">
-          {if @current_user, do: String.first(@current_user.email) |> String.upcase(), else: "?"}
-        </div>
-        <div class="flex-1 min-w-0">
-          <p class="text-sm font-medium text-white truncate">
-            {if @current_user, do: @current_user.email, else: "Guest"}
-          </p>
-          <p class="text-xs text-gray-500 capitalize">
-            {if @current_user,
-              do: String.replace(@current_user.role || "user", "_", " "),
-              else: ""}
-          </p>
-        </div>
         <.link
-          href={~p"/users/log_out"}
-          method="delete"
-          class="text-gray-500 hover:text-red-400 transition-colors"
-          title="Log out"
+          navigate={~p"/dashboard"}
+          class={"sidebar-link #{if assigns[:active_tab] == :dashboard, do: "active"}"}
         >
-          <span class="hero-arrow-right-on-rectangle w-5 h-5"></span>
+          <span class="hero-home w-5 h-5"></span> Dashboard
         </.link>
+
+        <.link
+          navigate={~p"/shipments"}
+          class={"sidebar-link #{if assigns[:active_tab] == :shipments, do: "active"}"}
+        >
+          <span class="hero-truck w-5 h-5"></span> Shipments
+        </.link>
+
+        <.link
+          navigate={~p"/compliance"}
+          class={"sidebar-link #{if assigns[:active_tab] == :compliance, do: "active"}"}
+        >
+          <span class="hero-shield-check w-5 h-5"></span> Compliance
+        </.link>
+
+        <p class="px-4 text-[10px] text-gray-600 uppercase tracking-widest font-semibold mb-3 mt-8">
+          Intelligence
+        </p>
+
+        <.link
+          navigate={~p"/substances"}
+          class={"sidebar-link #{if assigns[:active_tab] == :substances, do: "active"}"}
+        >
+          <span class="hero-beaker w-5 h-5"></span> Substances
+        </.link>
+
+        <.link
+          navigate={~p"/country-rules"}
+          class={"sidebar-link #{if assigns[:active_tab] == :country_rules, do: "active"}"}
+        >
+          <span class="hero-globe-alt w-5 h-5"></span> Country Rules
+        </.link>
+
+        <p class="px-4 text-[10px] text-gray-600 uppercase tracking-widest font-semibold mb-3 mt-8">
+          System
+        </p>
+
+        <.link
+          navigate={~p"/users/settings"}
+          class={"sidebar-link #{if assigns[:active_tab] == :settings, do: "active"}"}
+        >
+          <span class="hero-cog-6-tooth w-5 h-5"></span> Settings
+        </.link>
+      </nav>
+      
+<!-- User section -->
+      <div class="border-t border-white/[0.06] pt-4 mt-4">
+        <div class="flex items-center gap-3 px-4">
+          <div class="w-9 h-9 rounded-full bg-gradient-to-br from-accent/30 to-brand/30 flex items-center justify-center text-white text-sm font-bold border border-white/10">
+            {if @current_user, do: String.first(@current_user.email) |> String.upcase(), else: "?"}
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-white truncate">
+              {if @current_user, do: @current_user.email, else: "Guest"}
+            </p>
+            <p class="text-xs text-gray-500 capitalize">
+              {if @current_user,
+                do: String.replace(@current_user.role || "user", "_", " "),
+                else: ""}
+            </p>
+          </div>
+          <.link
+            href={~p"/users/log_out"}
+            method="delete"
+            class="text-gray-500 hover:text-red-400 transition-colors"
+            title="Log out"
+          >
+            <span class="hero-arrow-right-on-rectangle w-5 h-5"></span>
+          </.link>
+        </div>
       </div>
-    </div>
-  </aside>
+    </aside>
+  <% end %>
   
 <!-- ============ Main Content ============ -->
-  <div class="flex-1 lg:ml-72">
-    <!-- Top bar (mobile + breadcrumb) -->
-    <header class="sticky top-0 z-30 bg-[#0F172A]/80 backdrop-blur-lg border-b border-white/[0.04] px-6 py-4">
-      <div class="flex items-center justify-between">
-        <!-- Mobile menu button -->
-        <button class="lg:hidden text-gray-400 hover:text-white">
-          <span class="hero-bars-3 w-6 h-6"></span>
-        </button>
-
-        <div class="flex items-center gap-2 text-sm">
-          <span class="text-gray-500">Routiq</span>
-          <span class="text-gray-600">/</span>
-          <span class="text-white font-medium">{assigns[:page_title] || "Dashboard"}</span>
-        </div>
-
-        <div class="flex items-center gap-4">
-          <!-- Notifications -->
-          <button class="relative text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/[0.05]">
-            <span class="hero-bell w-5 h-5"></span>
-            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-accent rounded-full"></span>
+  <div class={"flex-1 #{if assigns[:current_user], do: "lg:ml-72", else: "flex flex-col"}"}>
+    <%= if assigns[:current_user] do %>
+      <!-- Top bar (mobile + breadcrumb) -->
+      <header class="sticky top-0 z-30 bg-[#0F172A]/80 backdrop-blur-lg border-b border-white/[0.04] px-6 py-4">
+        <div class="flex items-center justify-between">
+          <!-- Mobile menu button -->
+          <button class="lg:hidden text-gray-400 hover:text-white">
+            <span class="hero-bars-3 w-6 h-6"></span>
           </button>
+
+          <div class="flex items-center gap-2 text-sm">
+            <span class="text-gray-500">Routiq</span>
+            <span class="text-gray-600">/</span>
+            <span class="text-white font-medium">{assigns[:page_title] || "Dashboard"}</span>
+          </div>
+
+          <div class="flex items-center gap-4">
+            <!-- Notifications -->
+            <button class="relative text-gray-400 hover:text-white transition-colors p-2 rounded-lg hover:bg-white/[0.05]">
+              <span class="hero-bell w-5 h-5"></span>
+              <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-accent rounded-full"></span>
+            </button>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+    <% end %>
     
 <!-- Page content -->
-    <main class="px-6 py-8">
+    <main class={"#{if assigns[:current_user], do: "px-6 py-8", else: "flex-1"}"}>
       <.flash_group flash={@flash} />
       {@inner_content}
     </main>
