@@ -295,7 +295,7 @@ defmodule RoutiqWeb.DashboardLive do
     [
       %{
         title: "Platform initialized",
-        description: "Routiq PharmRoute compliance engine is ready",
+        description: "Routiq compliance engine is ready",
         icon: "hero-rocket-launch",
         icon_bg: "bg-accent/10",
         icon_color: "text-accent",
