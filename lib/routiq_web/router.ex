@@ -64,6 +64,7 @@ defmodule RoutiqWeb.Router do
       live "/", DashboardLive, :index
       live "/dashboard", DashboardLive, :index
       live "/shipments", ShipmentLive.Index, :index
+      live "/shipments/:id", ShipmentLive.Show, :show
       live "/compliance", ComplianceLive.Index, :index
       live "/substances", SubstanceLive.Index, :index
       live "/country-rules", CountryRuleLive.Index, :index

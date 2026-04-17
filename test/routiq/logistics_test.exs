@@ -8,7 +8,15 @@ defmodule Routiq.LogisticsTest do
 
     import Routiq.LogisticsFixtures
 
-    @invalid_attrs %{compliance_status: nil, destination: nil, manifest_data: nil, origin: nil, status: nil, temperature_constraint: nil, tracking_number: nil}
+    @invalid_attrs %{
+      compliance_status: nil,
+      destination: nil,
+      manifest_data: nil,
+      origin: nil,
+      status: nil,
+      temperature_constraint: nil,
+      tracking_number: nil
+    }
 
     test "list_shipments/0 returns all shipments" do
       shipment = shipment_fixture()
@@ -21,7 +29,15 @@ defmodule Routiq.LogisticsTest do
     end
 
     test "create_shipment/1 with valid data creates a shipment" do
-      valid_attrs = %{compliance_status: "some compliance_status", destination: "some destination", manifest_data: %{}, origin: "some origin", status: "some status", temperature_constraint: "some temperature_constraint", tracking_number: "some tracking_number"}
+      valid_attrs = %{
+        compliance_status: "some compliance_status",
+        destination: "some destination",
+        manifest_data: %{},
+        origin: "some origin",
+        status: "some status",
+        temperature_constraint: "some temperature_constraint",
+        tracking_number: "some tracking_number"
+      }
 
       assert {:ok, %Shipment{} = shipment} = Logistics.create_shipment(valid_attrs)
       assert shipment.compliance_status == "some compliance_status"
@@ -39,7 +55,16 @@ defmodule Routiq.LogisticsTest do
 
     test "update_shipment/2 with valid data updates the shipment" do
       shipment = shipment_fixture()
-      update_attrs = %{compliance_status: "some updated compliance_status", destination: "some updated destination", manifest_data: %{}, origin: "some updated origin", status: "some updated status", temperature_constraint: "some updated temperature_constraint", tracking_number: "some updated tracking_number"}
+
+      update_attrs = %{
+        compliance_status: "some updated compliance_status",
+        destination: "some updated destination",
+        manifest_data: %{},
+        origin: "some updated origin",
+        status: "some updated status",
+        temperature_constraint: "some updated temperature_constraint",
+        tracking_number: "some updated tracking_number"
+      }
 
       assert {:ok, %Shipment{} = shipment} = Logistics.update_shipment(shipment, update_attrs)
       assert shipment.compliance_status == "some updated compliance_status"
@@ -74,7 +99,15 @@ defmodule Routiq.LogisticsTest do
 
     import Routiq.LogisticsFixtures
 
-    @invalid_attrs %{destination: nil, is_cold_chain_compliant: nil, origin: nil, path: nil, regulatory_risk_score: nil, total_cost: nil, total_transit_days: nil}
+    @invalid_attrs %{
+      destination: nil,
+      is_cold_chain_compliant: nil,
+      origin: nil,
+      path: nil,
+      regulatory_risk_score: nil,
+      total_cost: nil,
+      total_transit_days: nil
+    }
 
     test "list_routes/0 returns all routes" do
       route = route_fixture()
@@ -87,7 +120,15 @@ defmodule Routiq.LogisticsTest do
     end
 
     test "create_route/1 with valid data creates a route" do
-      valid_attrs = %{destination: "some destination", is_cold_chain_compliant: true, origin: "some origin", path: %{}, regulatory_risk_score: 42, total_cost: 42, total_transit_days: 42}
+      valid_attrs = %{
+        destination: "some destination",
+        is_cold_chain_compliant: true,
+        origin: "some origin",
+        path: %{},
+        regulatory_risk_score: 42,
+        total_cost: 42,
+        total_transit_days: 42
+      }
 
       assert {:ok, %Route{} = route} = Logistics.create_route(valid_attrs)
       assert route.destination == "some destination"
@@ -105,7 +146,16 @@ defmodule Routiq.LogisticsTest do
 
     test "update_route/2 with valid data updates the route" do
       route = route_fixture()
-      update_attrs = %{destination: "some updated destination", is_cold_chain_compliant: false, origin: "some updated origin", path: %{}, regulatory_risk_score: 43, total_cost: 43, total_transit_days: 43}
+
+      update_attrs = %{
+        destination: "some updated destination",
+        is_cold_chain_compliant: false,
+        origin: "some updated origin",
+        path: %{},
+        regulatory_risk_score: 43,
+        total_cost: 43,
+        total_transit_days: 43
+      }
 
       assert {:ok, %Route{} = route} = Logistics.update_route(route, update_attrs)
       assert route.destination == "some updated destination"

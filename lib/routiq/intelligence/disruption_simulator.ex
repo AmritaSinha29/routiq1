@@ -12,23 +12,25 @@ defmodule Routiq.Intelligence.DisruptionSimulator do
   Triggers a simulated disruption for a specific shipment.
   """
   def trigger_disruption(shipment_id, scenario_type \\ :suez_congestion) do
-    disruption = case scenario_type do
-      :suez_congestion ->
-        %{
-          shipment_id: shipment_id,
-          type: "delay",
-          source: "Suez Canal Authority / AIS Feed",
-          impact: "Vessel diverted. Expected delay: 9 days.",
-          severity: "critical"
-        }
-      _ ->
-        %{
-          shipment_id: shipment_id,
-          type: "unknown",
-          impact: "Minor delay.",
-          severity: "low"
-        }
-    end
+    disruption =
+      case scenario_type do
+        :suez_congestion ->
+          %{
+            shipment_id: shipment_id,
+            type: "delay",
+            source: "Suez Canal Authority / AIS Feed",
+            impact: "Vessel diverted. Expected delay: 9 days.",
+            severity: "critical"
+          }
+
+        _ ->
+          %{
+            shipment_id: shipment_id,
+            type: "unknown",
+            impact: "Minor delay.",
+            severity: "low"
+          }
+      end
 
     # Broadcast to any connected LiveViews listening to this shipment's topic
     PubSub.broadcast(

@@ -21,7 +21,13 @@ defmodule Routiq.ComplianceTest do
     end
 
     test "create_substance/1 with valid data creates a substance" do
-      valid_attrs = %{cas_number: "some cas_number", inn_name: "some inn_name", name: "some name", properties: %{}, type: "some type"}
+      valid_attrs = %{
+        cas_number: "some cas_number",
+        inn_name: "some inn_name",
+        name: "some name",
+        properties: %{},
+        type: "some type"
+      }
 
       assert {:ok, %Substance{} = substance} = Compliance.create_substance(valid_attrs)
       assert substance.cas_number == "some cas_number"
@@ -37,9 +43,18 @@ defmodule Routiq.ComplianceTest do
 
     test "update_substance/2 with valid data updates the substance" do
       substance = substance_fixture()
-      update_attrs = %{cas_number: "some updated cas_number", inn_name: "some updated inn_name", name: "some updated name", properties: %{}, type: "some updated type"}
 
-      assert {:ok, %Substance{} = substance} = Compliance.update_substance(substance, update_attrs)
+      update_attrs = %{
+        cas_number: "some updated cas_number",
+        inn_name: "some updated inn_name",
+        name: "some updated name",
+        properties: %{},
+        type: "some updated type"
+      }
+
+      assert {:ok, %Substance{} = substance} =
+               Compliance.update_substance(substance, update_attrs)
+
       assert substance.cas_number == "some updated cas_number"
       assert substance.inn_name == "some updated inn_name"
       assert substance.name == "some updated name"
@@ -70,7 +85,15 @@ defmodule Routiq.ComplianceTest do
 
     import Routiq.ComplianceFixtures
 
-    @invalid_attrs %{country_code: nil, effective_date: nil, import_permit_required: nil, labelling_rules: nil, quantity_limits: nil, schedule_class: nil, source_url: nil}
+    @invalid_attrs %{
+      country_code: nil,
+      effective_date: nil,
+      import_permit_required: nil,
+      labelling_rules: nil,
+      quantity_limits: nil,
+      schedule_class: nil,
+      source_url: nil
+    }
 
     test "list_country_rules/0 returns all country_rules" do
       country_rule = country_rule_fixture()
@@ -83,7 +106,15 @@ defmodule Routiq.ComplianceTest do
     end
 
     test "create_country_rule/1 with valid data creates a country_rule" do
-      valid_attrs = %{country_code: "some country_code", effective_date: ~D[2026-04-11], import_permit_required: true, labelling_rules: "some labelling_rules", quantity_limits: "some quantity_limits", schedule_class: "some schedule_class", source_url: "some source_url"}
+      valid_attrs = %{
+        country_code: "some country_code",
+        effective_date: ~D[2026-04-11],
+        import_permit_required: true,
+        labelling_rules: "some labelling_rules",
+        quantity_limits: "some quantity_limits",
+        schedule_class: "some schedule_class",
+        source_url: "some source_url"
+      }
 
       assert {:ok, %CountryRule{} = country_rule} = Compliance.create_country_rule(valid_attrs)
       assert country_rule.country_code == "some country_code"
@@ -101,9 +132,20 @@ defmodule Routiq.ComplianceTest do
 
     test "update_country_rule/2 with valid data updates the country_rule" do
       country_rule = country_rule_fixture()
-      update_attrs = %{country_code: "some updated country_code", effective_date: ~D[2026-04-12], import_permit_required: false, labelling_rules: "some updated labelling_rules", quantity_limits: "some updated quantity_limits", schedule_class: "some updated schedule_class", source_url: "some updated source_url"}
 
-      assert {:ok, %CountryRule{} = country_rule} = Compliance.update_country_rule(country_rule, update_attrs)
+      update_attrs = %{
+        country_code: "some updated country_code",
+        effective_date: ~D[2026-04-12],
+        import_permit_required: false,
+        labelling_rules: "some updated labelling_rules",
+        quantity_limits: "some updated quantity_limits",
+        schedule_class: "some updated schedule_class",
+        source_url: "some updated source_url"
+      }
+
+      assert {:ok, %CountryRule{} = country_rule} =
+               Compliance.update_country_rule(country_rule, update_attrs)
+
       assert country_rule.country_code == "some updated country_code"
       assert country_rule.effective_date == ~D[2026-04-12]
       assert country_rule.import_permit_required == false
@@ -115,7 +157,10 @@ defmodule Routiq.ComplianceTest do
 
     test "update_country_rule/2 with invalid data returns error changeset" do
       country_rule = country_rule_fixture()
-      assert {:error, %Ecto.Changeset{}} = Compliance.update_country_rule(country_rule, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Compliance.update_country_rule(country_rule, @invalid_attrs)
+
       assert country_rule == Compliance.get_country_rule!(country_rule.id)
     end
 

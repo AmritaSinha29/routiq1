@@ -23,7 +23,9 @@ defmodule Routiq.OrganizationsTest do
     test "create_organization/1 with valid data creates a organization" do
       valid_attrs = %{gstin: "some gstin", name: "some name", type: "some type"}
 
-      assert {:ok, %Organization{} = organization} = Organizations.create_organization(valid_attrs)
+      assert {:ok, %Organization{} = organization} =
+               Organizations.create_organization(valid_attrs)
+
       assert organization.gstin == "some gstin"
       assert organization.name == "some name"
       assert organization.type == "some type"
@@ -35,9 +37,16 @@ defmodule Routiq.OrganizationsTest do
 
     test "update_organization/2 with valid data updates the organization" do
       organization = organization_fixture()
-      update_attrs = %{gstin: "some updated gstin", name: "some updated name", type: "some updated type"}
 
-      assert {:ok, %Organization{} = organization} = Organizations.update_organization(organization, update_attrs)
+      update_attrs = %{
+        gstin: "some updated gstin",
+        name: "some updated name",
+        type: "some updated type"
+      }
+
+      assert {:ok, %Organization{} = organization} =
+               Organizations.update_organization(organization, update_attrs)
+
       assert organization.gstin == "some updated gstin"
       assert organization.name == "some updated name"
       assert organization.type == "some updated type"
@@ -45,7 +54,10 @@ defmodule Routiq.OrganizationsTest do
 
     test "update_organization/2 with invalid data returns error changeset" do
       organization = organization_fixture()
-      assert {:error, %Ecto.Changeset{}} = Organizations.update_organization(organization, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Organizations.update_organization(organization, @invalid_attrs)
+
       assert organization == Organizations.get_organization!(organization.id)
     end
 

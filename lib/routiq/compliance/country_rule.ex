@@ -18,7 +18,23 @@ defmodule Routiq.Compliance.CountryRule do
   @doc false
   def changeset(country_rule, attrs) do
     country_rule
-    |> cast(attrs, [:country_code, :schedule_class, :import_permit_required, :quantity_limits, :labelling_rules, :effective_date, :source_url])
-    |> validate_required([:country_code, :schedule_class, :import_permit_required, :quantity_limits, :labelling_rules, :effective_date, :source_url])
+    |> cast(attrs, [
+      :country_code,
+      :schedule_class,
+      :import_permit_required,
+      :quantity_limits,
+      :labelling_rules,
+      :effective_date,
+      :source_url
+    ])
+    |> validate_required([
+      :country_code,
+      :schedule_class,
+      :import_permit_required,
+      :quantity_limits,
+      :labelling_rules,
+      :effective_date,
+      :source_url
+    ])
   end
 end

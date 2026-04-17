@@ -42,7 +42,13 @@ defmodule Routiq.Accounts.User do
     |> cast(attrs, [:email, :password, :role, :organization_id])
     |> validate_email(opts)
     |> validate_password(opts)
-    |> validate_inclusion(:role, ["export_manager", "regulatory_lead", "cha_agent", "supply_chain_director", "buyer"])
+    |> validate_inclusion(:role, [
+      "export_manager",
+      "regulatory_lead",
+      "cha_agent",
+      "supply_chain_director",
+      "buyer"
+    ])
   end
 
   defp validate_email(changeset, opts) do

@@ -45,8 +45,8 @@ defmodule RoutiqWeb.CountryRuleLive.Index do
           Import regulations and schedule classifications by country
         </p>
       </div>
-
-      <!-- Country cards grid -->
+      
+    <!-- Country cards grid -->
       <%= if @grouped_rules != [] do %>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 stagger">
           <%= for {country_code, rules} <- @grouped_rules do %>
@@ -58,41 +58,45 @@ defmodule RoutiqWeb.CountryRuleLive.Index do
               <div class="flex items-center justify-between mb-3">
                 <div class="flex items-center gap-3">
                   <div class="w-10 h-10 rounded-xl bg-violet-500/10 flex items-center justify-center text-lg">
-                    <%= country_flag(country_code) %>
+                    {country_flag(country_code)}
                   </div>
                   <div>
-                    <h3 class="text-white font-semibold text-sm"><%= country_name(country_code) %></h3>
-                    <p class="text-gray-500 text-xs"><%= country_code %></p>
+                    <h3 class="text-white font-semibold text-sm">{country_name(country_code)}</h3>
+                    <p class="text-gray-500 text-xs">{country_code}</p>
                   </div>
                 </div>
-                <span class="badge badge-info"><%= length(rules) %> rules</span>
+                <span class="badge badge-info">{length(rules)} rules</span>
               </div>
 
               <div class="flex flex-wrap gap-1.5 mt-2">
                 <%= for rule <- Enum.take(rules, 3) do %>
                   <span class={"text-[10px] px-2 py-0.5 rounded-full #{schedule_class_style(rule.schedule_class)}"}>
-                    <%= rule.schedule_class %>
+                    {rule.schedule_class}
                   </span>
                 <% end %>
                 <%= if length(rules) > 3 do %>
                   <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/[0.05] text-gray-400">
-                    +<%= length(rules) - 3 %> more
+                    +{length(rules) - 3} more
                   </span>
                 <% end %>
               </div>
             </button>
           <% end %>
         </div>
-
-        <!-- Expanded rules table -->
+        
+    <!-- Expanded rules table -->
         <%= if @selected_country do %>
           <div class="glass-card overflow-hidden animate-fade-in-up">
             <div class="px-6 py-4 border-b border-white/[0.06] flex items-center justify-between">
               <h2 class="text-white font-semibold font-display flex items-center gap-2">
-                <span class="text-xl"><%= country_flag(@selected_country) %></span>
-                <%= country_name(@selected_country) %> — Detailed Rules
+                <span class="text-xl">{country_flag(@selected_country)}</span>
+                {country_name(@selected_country)} — Detailed Rules
               </h2>
-              <button phx-click="select_country" phx-value-code={@selected_country} class="text-gray-400 hover:text-white transition-colors">
+              <button
+                phx-click="select_country"
+                phx-value-code={@selected_country}
+                class="text-gray-400 hover:text-white transition-colors"
+              >
                 <span class="hero-x-mark w-5 h-5"></span>
               </button>
             </div>
@@ -112,7 +116,9 @@ defmodule RoutiqWeb.CountryRuleLive.Index do
                   <%= for rule <- Map.get(Enum.into(@grouped_rules, %{}), @selected_country, []) do %>
                     <tr>
                       <td>
-                        <span class={"badge #{schedule_class_badge(rule.schedule_class)}"}><%= rule.schedule_class %></span>
+                        <span class={"badge #{schedule_class_badge(rule.schedule_class)}"}>
+                          {rule.schedule_class}
+                        </span>
                       </td>
                       <td>
                         <%= if rule.import_permit_required do %>
@@ -121,14 +127,27 @@ defmodule RoutiqWeb.CountryRuleLive.Index do
                           <span class="badge badge-success">Not required</span>
                         <% end %>
                       </td>
-                      <td class="text-gray-300 text-xs max-w-[200px] truncate" title={rule.quantity_limits}><%= rule.quantity_limits %></td>
-                      <td class="text-gray-300 text-xs max-w-[200px] truncate" title={rule.labelling_rules}><%= rule.labelling_rules %></td>
-                      <td class="text-gray-400 text-xs"><%= rule.effective_date %></td>
+                      <td
+                        class="text-gray-300 text-xs max-w-[200px] truncate"
+                        title={rule.quantity_limits}
+                      >
+                        {rule.quantity_limits}
+                      </td>
+                      <td
+                        class="text-gray-300 text-xs max-w-[200px] truncate"
+                        title={rule.labelling_rules}
+                      >
+                        {rule.labelling_rules}
+                      </td>
+                      <td class="text-gray-400 text-xs">{rule.effective_date}</td>
                       <td>
                         <%= if rule.source_url && rule.source_url != "" do %>
-                          <a href={rule.source_url} target="_blank" class="text-accent hover:text-white text-xs transition-colors flex items-center gap-1">
-                            <span class="hero-arrow-top-right-on-square-mini w-3 h-3"></span>
-                            Source
+                          <a
+                            href={rule.source_url}
+                            target="_blank"
+                            class="text-accent hover:text-white text-xs transition-colors flex items-center gap-1"
+                          >
+                            <span class="hero-arrow-top-right-on-square-mini w-3 h-3"></span> Source
                           </a>
                         <% else %>
                           <span class="text-gray-600 text-xs">—</span>
@@ -146,7 +165,11 @@ defmodule RoutiqWeb.CountryRuleLive.Index do
           <span class="hero-globe-alt w-12 h-12 text-gray-700 mx-auto"></span>
           <p class="text-gray-500 mt-4 text-sm">No country rules configured</p>
           <p class="text-gray-600 text-xs mt-1">
-            Run <code class="text-accent/60 bg-accent/10 px-1.5 py-0.5 rounded">mix run priv/repo/seeds.exs</code> to load demo data
+            Run
+            <code class="text-accent/60 bg-accent/10 px-1.5 py-0.5 rounded">
+              mix run priv/repo/seeds.exs
+            </code>
+            to load demo data
           </p>
         </div>
       <% end %>

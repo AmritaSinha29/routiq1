@@ -1,14 +1,44 @@
 defmodule RoutiqWeb.ShipmentLive.Index do
   use RoutiqWeb, :live_view
 
+  alias Routiq.Logistics
+
   @impl true
   def mount(_params, _session, socket) do
+    # Fetch shipments or use an empty list if none exist
+    shipments = Logistics.list_shipments()
+
     socket =
       socket
       |> assign(:page_title, "Shipments")
       |> assign(:active_tab, :shipments)
+      |> assign(:shipments, shipments)
 
     {:ok, socket}
+  end
+
+  @impl true
+  def handle_event("create_demo_shipment", _, socket) do
+    # Creates a demo shipment for the hackathon scenario
+    {:ok, _shipment} =
+      Logistics.create_shipment(%{
+        origin: "Ahmedabad, India (JNPT)",
+        destination: "Rotterdam, Netherlands",
+        status: "In Transit",
+        tracking_number: "PR-EU-#{Enum.random(1000..9999)}",
+        temperature_constraint: "2-8°C (Cold Chain)",
+        compliance_status: "Verified",
+        manifest_data: %{
+          "product" => "Amoxicillin-Clavulanate 625mg",
+          "quantity" => "10,000 packs",
+          "apis" => ["Amoxicillin Trihydrate", "Clavulanate Potassium"]
+        }
+      })
+
+    {:noreply,
+     socket
+     |> put_flash(:info, "Demo shipment created successfully.")
+     |> assign(:shipments, Logistics.list_shipments())}
   end
 
   @impl true
@@ -25,40 +55,92 @@ defmodule RoutiqWeb.ShipmentLive.Index do
             Track and manage pharmaceutical export shipments
           </p>
         </div>
-        <button class="btn-primary flex items-center gap-2" disabled>
-          <span class="hero-plus w-4 h-4"></span>
-          New Shipment
+        <button phx-click="create_demo_shipment" class="btn-primary flex items-center gap-2">
+          <span class="hero-plus w-4 h-4"></span> New Demo Shipment
         </button>
       </div>
-
-      <!-- Coming soon state -->
-      <div class="glass-card p-16 text-center animate-fade-in-up">
-        <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-brand/20 to-accent/20 flex items-center justify-center mx-auto mb-6">
-          <svg class="w-10 h-10 text-accent" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
-          </svg>
-        </div>
-        <h2 class="text-xl font-bold text-white font-display mb-2">Shipment Tracking</h2>
-        <p class="text-gray-400 text-sm max-w-md mx-auto">
-          Shipment creation and tracking is coming in the next phase. 
-          You'll be able to create manifests, run compliance checks, and track shipments in real-time.
-        </p>
-        <div class="flex items-center justify-center gap-3 mt-8">
-          <div class="flex items-center gap-2 text-xs text-gray-500 bg-white/[0.03] px-4 py-2 rounded-lg border border-white/[0.06]">
-            <span class="hero-beaker-mini w-4 h-4 text-emerald-400"></span>
-            Manifest Intelligence
+      
+    <!-- Shipments List -->
+      <div class="glass-card overflow-hidden animate-fade-in-up">
+        <%= if @shipments != [] do %>
+          <div class="overflow-x-auto">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Tracking #</th>
+                  <th>Route</th>
+                  <th>Product</th>
+                  <th>Constraints</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <%= for shipment <- @shipments do %>
+                  <tr>
+                    <td>
+                      <div class="flex items-center gap-2">
+                        <span class="hero-truck w-4 h-4 text-brand"></span>
+                        <span class="font-medium text-white">{shipment.tracking_number}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="flex items-center gap-2 text-sm text-gray-300">
+                        <span class="truncate max-w-[120px]" title={shipment.origin}>
+                          {shipment.origin}
+                        </span>
+                        <span class="hero-arrow-right w-3 h-3 text-gray-500"></span>
+                        <span class="truncate max-w-[120px]" title={shipment.destination}>
+                          {shipment.destination}
+                        </span>
+                      </div>
+                    </td>
+                    <td>
+                      <p class="text-sm text-white">{shipment.manifest_data["product"]}</p>
+                      <p class="text-[10px] text-gray-500">{shipment.manifest_data["quantity"]}</p>
+                    </td>
+                    <td>
+                      <span class="badge badge-info flex items-center gap-1 w-max">
+                        <span class="hero-sparkles-mini w-3 h-3"></span>
+                        {shipment.temperature_constraint}
+                      </span>
+                    </td>
+                    <td>
+                      <span class={"badge #{status_badge(shipment.status)}"}>
+                        {shipment.status}
+                      </span>
+                    </td>
+                    <td>
+                      <.link
+                        navigate={~p"/shipments/#{shipment.id}"}
+                        class="text-accent hover:text-white text-sm font-medium transition-colors"
+                      >
+                        View Details →
+                      </.link>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
           </div>
-          <div class="flex items-center gap-2 text-xs text-gray-500 bg-white/[0.03] px-4 py-2 rounded-lg border border-white/[0.06]">
-            <span class="hero-shield-check-mini w-4 h-4 text-violet-400"></span>
-            Auto Compliance
+        <% else %>
+          <div class="text-center py-16">
+            <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-brand/20 to-accent/20 flex items-center justify-center mx-auto mb-6">
+              <span class="hero-truck w-10 h-10 text-accent"></span>
+            </div>
+            <h2 class="text-xl font-bold text-white font-display mb-2">No Active Shipments</h2>
+            <p class="text-gray-400 text-sm max-w-md mx-auto">
+              Create a new demo shipment to see the AI Manifest Parsing, Compliance Check, and Route Disruption Engine in action.
+            </p>
           </div>
-          <div class="flex items-center gap-2 text-xs text-gray-500 bg-white/[0.03] px-4 py-2 rounded-lg border border-white/[0.06]">
-            <span class="hero-map-pin-mini w-4 h-4 text-sky-400"></span>
-            Route Tracking
-          </div>
-        </div>
+        <% end %>
       </div>
     </div>
     """
   end
+
+  defp status_badge("In Transit"), do: "badge-success"
+  defp status_badge("Delayed"), do: "badge-warning"
+  defp status_badge("Critical"), do: "badge-danger"
+  defp status_badge(_), do: "badge-info"
 end

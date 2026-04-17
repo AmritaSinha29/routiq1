@@ -9,7 +9,7 @@ defmodule Routiq.Intelligence.RouteScorer do
   """
   def score_route(route, _shipment_constraints) do
     # Base score calculated from days and cost
-    base_score = (route.total_transit_days * 10) + (route.total_cost / 100)
+    base_score = route.total_transit_days * 10 + route.total_cost / 100
 
     # Penalties
     cold_chain_penalty = if route.is_cold_chain_compliant, do: 0, else: 5000
@@ -28,6 +28,6 @@ defmodule Routiq.Intelligence.RouteScorer do
   def evaluate_alternatives(alternatives, shipment_constraints) do
     alternatives
     |> Enum.map(&score_route(&1, shipment_constraints))
-    |> Enum.sort_by(&(&1.calculated_score))
+    |> Enum.sort_by(& &1.calculated_score)
   end
 end

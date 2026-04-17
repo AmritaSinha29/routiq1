@@ -42,7 +42,7 @@ substances = [
   }
 ]
 
-inserted_substances = 
+inserted_substances =
   Enum.map(substances, fn attrs ->
     %Substance{}
     |> Substance.changeset(attrs)
@@ -84,7 +84,7 @@ rules = [
     effective_date: ~D[2024-01-01],
     source_url: "https://www.bfarm.de/"
   },
-  
+
   # Pseudoephedrine rules (Precursor)
   %{
     substance_id: pseudo.id,

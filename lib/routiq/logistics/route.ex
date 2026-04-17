@@ -18,7 +18,22 @@ defmodule Routiq.Logistics.Route do
   @doc false
   def changeset(route, attrs) do
     route
-    |> cast(attrs, [:origin, :destination, :total_transit_days, :total_cost, :is_cold_chain_compliant, :regulatory_risk_score, :path])
-    |> validate_required([:origin, :destination, :total_transit_days, :total_cost, :is_cold_chain_compliant, :regulatory_risk_score])
+    |> cast(attrs, [
+      :origin,
+      :destination,
+      :total_transit_days,
+      :total_cost,
+      :is_cold_chain_compliant,
+      :regulatory_risk_score,
+      :path
+    ])
+    |> validate_required([
+      :origin,
+      :destination,
+      :total_transit_days,
+      :total_cost,
+      :is_cold_chain_compliant,
+      :regulatory_risk_score
+    ])
   end
 end

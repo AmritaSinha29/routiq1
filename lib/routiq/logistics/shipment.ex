@@ -17,7 +17,22 @@ defmodule Routiq.Logistics.Shipment do
   @doc false
   def changeset(shipment, attrs) do
     shipment
-    |> cast(attrs, [:origin, :destination, :status, :tracking_number, :temperature_constraint, :manifest_data, :compliance_status])
-    |> validate_required([:origin, :destination, :status, :tracking_number, :temperature_constraint, :compliance_status])
+    |> cast(attrs, [
+      :origin,
+      :destination,
+      :status,
+      :tracking_number,
+      :temperature_constraint,
+      :manifest_data,
+      :compliance_status
+    ])
+    |> validate_required([
+      :origin,
+      :destination,
+      :status,
+      :tracking_number,
+      :temperature_constraint,
+      :compliance_status
+    ])
   end
 end

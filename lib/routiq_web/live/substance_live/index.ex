@@ -23,9 +23,10 @@ defmodule RoutiqWeb.SubstanceLive.Index do
       Compliance.list_substances()
       |> Enum.filter(fn s ->
         term = String.downcase(search)
+
         String.contains?(String.downcase(s.name), term) ||
-        String.contains?(String.downcase(s.cas_number || ""), term) ||
-        String.contains?(String.downcase(s.type || ""), term)
+          String.contains?(String.downcase(s.cas_number || ""), term) ||
+          String.contains?(String.downcase(s.type || ""), term)
       end)
 
     {:noreply, assign(socket, substances: substances, search: search)}
@@ -42,12 +43,12 @@ defmodule RoutiqWeb.SubstanceLive.Index do
             Substances<span class="text-accent">.</span>
           </h1>
           <p class="text-gray-400 text-sm mt-1">
-            <%= length(@substances) %> tracked pharmaceutical substances
+            {length(@substances)} tracked pharmaceutical substances
           </p>
         </div>
       </div>
-
-      <!-- Search -->
+      
+    <!-- Search -->
       <div class="glass-card p-4 animate-fade-in-up">
         <form phx-change="search" class="flex items-center gap-3">
           <span class="hero-magnifying-glass w-5 h-5 text-gray-500"></span>
@@ -61,8 +62,8 @@ defmodule RoutiqWeb.SubstanceLive.Index do
           />
         </form>
       </div>
-
-      <!-- Table -->
+      
+    <!-- Table -->
       <div class="glass-card overflow-hidden animate-fade-in-up">
         <%= if @substances != [] do %>
           <div class="overflow-x-auto">
@@ -84,19 +85,25 @@ defmodule RoutiqWeb.SubstanceLive.Index do
                         <div class="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
                           <span class="hero-beaker-mini w-4 h-4 text-emerald-400"></span>
                         </div>
-                        <span class="font-medium text-white"><%= substance.name %></span>
+                        <span class="font-medium text-white">{substance.name}</span>
                       </div>
                     </td>
                     <td>
-                      <code class="text-xs bg-white/[0.05] px-2 py-1 rounded text-accent"><%= substance.cas_number %></code>
+                      <code class="text-xs bg-white/[0.05] px-2 py-1 rounded text-accent">
+                        {substance.cas_number}
+                      </code>
                     </td>
-                    <td class="text-gray-300"><%= substance.inn_name %></td>
+                    <td class="text-gray-300">{substance.inn_name}</td>
                     <td>
-                      <span class={"badge #{type_badge_class(substance.type)}"}><%= substance.type %></span>
+                      <span class={"badge #{type_badge_class(substance.type)}"}>
+                        {substance.type}
+                      </span>
                     </td>
                     <td>
                       <%= if substance.properties && map_size(substance.properties) > 0 do %>
-                        <span class="text-xs text-gray-500"><%= map_size(substance.properties) %> properties</span>
+                        <span class="text-xs text-gray-500">
+                          {map_size(substance.properties)} properties
+                        </span>
                       <% else %>
                         <span class="text-xs text-gray-600">—</span>
                       <% end %>
@@ -111,7 +118,11 @@ defmodule RoutiqWeb.SubstanceLive.Index do
             <span class="hero-beaker w-12 h-12 text-gray-700 mx-auto"></span>
             <p class="text-gray-500 mt-4 text-sm">No substances found</p>
             <p class="text-gray-600 text-xs mt-1">
-              Run <code class="text-accent/60 bg-accent/10 px-1.5 py-0.5 rounded">mix run priv/repo/seeds.exs</code> to load demo data
+              Run
+              <code class="text-accent/60 bg-accent/10 px-1.5 py-0.5 rounded">
+                mix run priv/repo/seeds.exs
+              </code>
+              to load demo data
             </p>
           </div>
         <% end %>

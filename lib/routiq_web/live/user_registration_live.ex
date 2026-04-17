@@ -8,15 +8,25 @@ defmodule RoutiqWeb.UserRegistrationLive do
     ~H"""
     <div class="min-h-screen flex items-center justify-center bg-surface relative overflow-hidden py-12">
       <!-- Background decoration -->
-      <div class="absolute -top-40 -left-40 w-96 h-96 bg-accent rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-      <div class="absolute -bottom-40 -right-40 w-96 h-96 bg-brand rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style="animation-delay: 2s;"></div>
-      
+      <div class="absolute -top-40 -left-40 w-96 h-96 bg-accent rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse">
+      </div>
+      <div
+        class="absolute -bottom-40 -right-40 w-96 h-96 bg-brand rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"
+        style="animation-delay: 2s;"
+      >
+      </div>
+
       <div class="relative w-full max-w-md p-8 bg-surface/40 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 mx-4">
         <.header class="text-center mb-8">
-          <h1 class="font-display text-4xl font-bold text-white mb-2 bg-gradient-to-r from-brand to-accent bg-clip-text text-transparent">Create Account</h1>
+          <h1 class="font-display text-4xl font-bold text-white mb-2 bg-gradient-to-r from-brand to-accent bg-clip-text text-transparent">
+            Create Account
+          </h1>
           <:subtitle>
             <span class="text-gray-400">Already registered?</span>
-            <.link navigate={~p"/users/log_in"} class="font-semibold text-accent hover:text-white transition-colors duration-300">
+            <.link
+              navigate={~p"/users/log_in"}
+              class="font-semibold text-accent hover:text-white transition-colors duration-300"
+            >
               Log in
             </.link>
           </:subtitle>
@@ -38,13 +48,25 @@ defmodule RoutiqWeb.UserRegistrationLive do
             </div>
           </.error>
 
-          <.input field={@form[:email]} type="email" label="Email" required class="bg-surface/50 border-white/10 text-white focus:border-accent" />
-          <.input field={@form[:password]} type="password" label="Password" required class="bg-surface/50 border-white/10 text-white focus:border-accent" />
-          
-          <.input 
-            field={@form[:role]} 
-            type="select" 
-            label="Your Role" 
+          <.input
+            field={@form[:email]}
+            type="email"
+            label="Email"
+            required
+            class="bg-surface/50 border-white/10 text-white focus:border-accent"
+          />
+          <.input
+            field={@form[:password]}
+            type="password"
+            label="Password"
+            required
+            class="bg-surface/50 border-white/10 text-white focus:border-accent"
+          />
+
+          <.input
+            field={@form[:role]}
+            type="select"
+            label="Your Role"
             prompt="Select your role"
             options={[
               {"Export Manager", "export_manager"},
@@ -53,12 +75,15 @@ defmodule RoutiqWeb.UserRegistrationLive do
               {"Supply Chain Director", "supply_chain_director"},
               {"Buyer/Importer", "buyer"}
             ]}
-            required 
+            required
             class="bg-surface/50 border-white/10 text-white focus:border-accent"
           />
 
           <:actions>
-            <.button phx-disable-with="Creating account..." class="w-full bg-gradient-to-r from-accent to-brand hover:from-brand hover:to-accent text-white font-bold py-3 rounded-lg shadow-lg transform hover:scale-[1.02] transition-all duration-300">
+            <.button
+              phx-disable-with="Creating account..."
+              class="w-full bg-gradient-to-r from-accent to-brand hover:from-brand hover:to-accent text-white font-bold py-3 rounded-lg shadow-lg transform hover:scale-[1.02] transition-all duration-300"
+            >
               Create an account
             </.button>
           </:actions>

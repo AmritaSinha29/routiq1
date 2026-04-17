@@ -49,8 +49,8 @@ defmodule RoutiqWeb.ComplianceLive.Index do
           Cross-reference substance regulations across destination countries
         </p>
       </div>
-
-      <!-- Legend -->
+      
+    <!-- Legend -->
       <div class="glass-card p-4 animate-fade-in-up">
         <div class="flex flex-wrap items-center gap-4 text-xs">
           <span class="text-gray-500 font-medium">Legend:</span>
@@ -68,20 +68,22 @@ defmodule RoutiqWeb.ComplianceLive.Index do
           </div>
         </div>
       </div>
-
-      <!-- Matrix -->
+      
+    <!-- Matrix -->
       <%= if @matrix != [] && @countries != [] do %>
         <div class="glass-card overflow-hidden animate-fade-in-up">
           <div class="overflow-x-auto">
             <table class="w-full">
               <thead>
                 <tr class="border-b border-white/[0.06]">
-                  <th class="text-xs font-semibold text-gray-500 uppercase tracking-wider px-4 py-3 text-left sticky left-0 bg-[#0F172A]/90 backdrop-blur-sm z-10 min-w-[200px]">Substance</th>
+                  <th class="text-xs font-semibold text-gray-500 uppercase tracking-wider px-4 py-3 text-left sticky left-0 bg-[#0F172A]/90 backdrop-blur-sm z-10 min-w-[200px]">
+                    Substance
+                  </th>
                   <%= for country <- @countries do %>
                     <th class="text-xs font-semibold text-gray-500 uppercase tracking-wider px-3 py-3 text-center min-w-[100px]">
                       <div class="flex flex-col items-center gap-1">
-                        <span class="text-base"><%= country_flag(country) %></span>
-                        <span><%= country %></span>
+                        <span class="text-base">{country_flag(country)}</span>
+                        <span>{country}</span>
                       </div>
                     </th>
                   <% end %>
@@ -94,8 +96,8 @@ defmodule RoutiqWeb.ComplianceLive.Index do
                       <div class="flex items-center gap-2">
                         <span class="hero-beaker-mini w-4 h-4 text-emerald-400"></span>
                         <div>
-                          <p class="text-sm font-medium text-white"><%= row.substance.name %></p>
-                          <p class="text-[10px] text-gray-500"><%= row.substance.cas_number %></p>
+                          <p class="text-sm font-medium text-white">{row.substance.name}</p>
+                          <p class="text-[10px] text-gray-500">{row.substance.cas_number}</p>
                         </div>
                       </div>
                     </td>
@@ -104,10 +106,11 @@ defmodule RoutiqWeb.ComplianceLive.Index do
                         <%= if rule = Map.get(row.rules, country) do %>
                           <div class={"inline-flex flex-col items-center gap-1 px-2 py-1.5 rounded-lg #{if rule.import_permit_required, do: "bg-amber-500/10", else: "bg-emerald-500/10"}"}>
                             <span class={"text-[10px] font-semibold #{if rule.import_permit_required, do: "text-amber-400", else: "text-emerald-400"}"}>
-                              <%= rule.schedule_class %>
+                              {rule.schedule_class}
                             </span>
                             <%= if rule.import_permit_required do %>
-                              <span class="hero-exclamation-triangle-mini w-3 h-3 text-amber-400"></span>
+                              <span class="hero-exclamation-triangle-mini w-3 h-3 text-amber-400">
+                              </span>
                             <% else %>
                               <span class="hero-check-circle-mini w-3 h-3 text-emerald-400"></span>
                             <% end %>
