@@ -17,12 +17,6 @@ defmodule RoutiqWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", RoutiqWeb do
-    pipe_through :browser
-
-    get "/", PageController, :home
-  end
-
   # Other scopes may use custom stacks.
   # scope "/api", RoutiqWeb do
   #   pipe_through :api
@@ -61,11 +55,18 @@ defmodule RoutiqWeb.Router do
     post "/users/log_in", UserSessionController, :create
   end
 
+  ## Authenticated app routes
   scope "/", RoutiqWeb do
     pipe_through [:browser, :require_authenticated_user]
 
     live_session :require_authenticated_user,
       on_mount: [{RoutiqWeb.UserAuth, :ensure_authenticated}] do
+      live "/", DashboardLive, :index
+      live "/dashboard", DashboardLive, :index
+      live "/shipments", ShipmentLive.Index, :index
+      live "/compliance", ComplianceLive.Index, :index
+      live "/substances", SubstanceLive.Index, :index
+      live "/country-rules", CountryRuleLive.Index, :index
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
     end
